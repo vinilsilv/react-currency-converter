@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { _API_KEY } from "../data";
 
 export default class Converter extends Component {
   constructor(props) {
@@ -13,7 +14,28 @@ export default class Converter extends Component {
   }
 
   convert = () => {
-    console.log("a");
+    var myHeaders = new Headers();
+
+    var myInit = {
+      method: "GET",
+      headers: myHeaders,
+      mode: "no-cors",
+      cache: "default",
+    };
+
+    fetch(
+      `https://free.currconv.com/api/v7/convert?q=${this.props.currencyA}_${this.props.currencyB}&compact=ultra&apiKey=${_API_KEY}`,
+      myInit
+    ).then((res) => {
+      res.json().then((data) => {
+        let currencyVal = data[Object.keys(data)[0]];
+        this.setState({
+          currencyB_value: (currencyVal * this.state.currencyA_value).toFixed(
+            2
+          ),
+        });
+      });
+    });
   };
 
   render() {
@@ -23,13 +45,15 @@ export default class Converter extends Component {
           {this.props.currencyA} to {this.props.currencyB}
         </h2>
         <input
-          type="text"
+          type="number"
           onChange={(event) => {
             this.setState({ currencyA_value: event.target.value });
           }}
         ></input>
-        <button onClick={this.convert()}>Convert</button>
-        <h2>Converted value</h2>
+        <button onClick={() => this.convert()}>Convert</button>
+        <h3>
+          Converted value: <span>{this.state.currencyB_value}</span>
+        </h3>
       </div>
     );
   }
