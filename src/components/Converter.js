@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { _API_KEY } from "../data";
+import { _API_KEY } from "../api_data";
 
 export default class Converter extends Component {
   constructor(props) {
