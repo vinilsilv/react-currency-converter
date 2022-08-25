@@ -19,7 +19,7 @@ export default class Converter extends Component {
     var myInit = {
       method: "GET",
       headers: myHeaders,
-      mode: "no-cors",
+      mode: "cors",
       cache: "default",
     };
 
@@ -30,9 +30,7 @@ export default class Converter extends Component {
       res.json().then((data) => {
         let currencyVal = data[Object.keys(data)[0]];
         this.setState({
-          currencyB_value: (currencyVal * this.state.currencyA_value).toFixed(
-            2
-          ),
+          currencyB_value: (currencyVal * this.state.currencyA_value).toFixed(2),
         });
       });
     });
